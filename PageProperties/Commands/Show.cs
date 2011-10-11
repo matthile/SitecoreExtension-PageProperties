@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using GNReSound.BL.Controls.Seo;
+﻿
 using Sitecore;
+using Sitecore.Configuration;
 using Sitecore.Data;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
 using Sitecore.Globalization;
+using Sitecore.Links;
 using Sitecore.Resources;
 using Sitecore.Shell.Applications.WebEdit.Commands;
 using Sitecore.Shell.Framework.Commands;
+using Sitecore.Sites;
 using Sitecore.Text;
-using Sitecore.Web.UI.HtmlControls;
+using Sitecore.Web;
 using Sitecore.Web.UI.Sheer;
-using Sitecore.Web.UI.XamlSharp.Continuations;
+using System;
+using System.Collections.Specialized;
 
-namespace GNReSound.BL.Commands
+namespace PageProperties.Commands
 {
-    class ChangeMetaCommand : WebEditCommand, ISupportsContinuation
+    [UsedImplicitly]
+    [Serializable]
+    class ChangeMetaCommand : WebEditCommand
     {
         /// <summary>
         /// Executes the command in the specified context.
@@ -51,7 +52,7 @@ namespace GNReSound.BL.Commands
         protected void Run(ClientPipelineArgs args)
         {
             Item itemNotNull = Sitecore.Client.GetItemNotNull(args.Parameters["itemid"], Language.Parse(args.Parameters["language"]));
-            UrlString urlString = ResourceUri.Parse("Control:Seo.Edit").ToUrlString();
+            UrlString urlString = ResourceUri.Parse("Control:PageProperties.Edit").ToUrlString();
             itemNotNull.Uri.AddToUrlString(urlString);
             SheerResponse.ShowModalDialog(urlString.ToString(), false);
         }
