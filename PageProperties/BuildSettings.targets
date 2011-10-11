@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <SitecoreLocation>D:\Solutions\Website</SitecoreLocation>
+  </PropertyGroup>
+  <Target Name="CopyToSitecore">
+    <ItemGroup>
+      <_FilesToCopy Include="@(Content)" />
+      <_Dll Include="$(TargetDir)$(TargetName).*" />
+    </ItemGroup>
+
+    <Copy SkipUnchangedFiles="true" SourceFiles="@(_FilesToCopy)"
+          DestinationFiles="$(SitecoreLocation)\%(Identity)" />
+    <Copy SkipUnchangedFiles="true" SourceFiles="@(_Dll)"
+          DestinationFolder="$(SitecoreLocation)\bin\" />
+    <Message Text="Done copy" />
+  </Target>
+</Project>
