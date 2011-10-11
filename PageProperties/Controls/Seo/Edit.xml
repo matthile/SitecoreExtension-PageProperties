@@ -4,7 +4,7 @@
         <FormDialog ID="Dialog" Icon="Applications/32x32/document_new.png" Header="Edit Sep"
       Text="Select the item that you want to insert. You must give the item a name." OKButton="Save">
 
-            <CodeBeside Type="GNReSound.Bl.Controls.Seo.Edit,GNReSound.bl"/>
+            <CodeBeside Type="PageProperties.Controls.Seo.Edit,PageProperties"/>
 
             <Script>
                 function GetInput(){
