@@ -57,11 +57,12 @@
     <Compile Include="Configuration\AssemblyElement.cs" />
     <Compile Include="Configuration\AssemblysCollection.cs" />
     <Compile Include="Configuration\AssemblySection.cs" />
+    <Compile Include="Controls\Edit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\FindProperties.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Controls\Seo\Edit.xml" />
+    <Content Include="Controls\Edit.xml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

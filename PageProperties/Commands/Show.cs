@@ -20,7 +20,7 @@ namespace PageProperties.Commands
 {
     [UsedImplicitly]
     [Serializable]
-    class ChangeMetaCommand : WebEditCommand
+    class Show : WebEditCommand
     {
         /// <summary>
         /// Executes the command in the specified context.
