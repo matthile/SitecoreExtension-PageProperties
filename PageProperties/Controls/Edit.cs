@@ -21,8 +21,6 @@
         #region Fields
 
         private Sitecore.Web.UI.HtmlControls.Scrollbox InputFields;
-
-        //private Sitecore.Web.UI.HtmlControls.Edit Description;
         Item item;
 
         #endregion Fields
@@ -37,11 +35,6 @@
                 return false;
 
             return true;
-        }
-
-        protected void Items_Click(string input)
-        {
-            Console.Write("HELLO!!!");
         }
 
         protected override void OnLoad(EventArgs e)
