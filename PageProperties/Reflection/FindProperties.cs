@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        public static Dictionary<Type, List<PropertyInfo>> Properties;
+        private static Dictionary<Type, List<PropertyInfo>> _properties;
 
         #endregion Fields
 
@@ -22,10 +22,10 @@
 
         public static Dictionary<Type, List<PropertyInfo>> GetProperties()
         {
-            if (Properties != null)
-                return FindProperties.Properties;
+            if (_properties != null)
+                return FindProperties._properties;
 
-            FindProperties.Properties = new Dictionary<Type, List<PropertyInfo>>();
+            FindProperties._properties = new Dictionary<Type, List<PropertyInfo>>();
             var assemblyElements = AssemblySection.GetAssemblies();
 
             foreach (AssemblyElement assemblyElement in assemblyElements)
@@ -41,13 +41,13 @@
                         var customAttributes = propertyInfo.GetCustomAttributes(typeof(FieldNotVisibleInWebEdit), true);
                         if (customAttributes.Count() > 0)
                         {
-                            if (FindProperties.Properties.ContainsKey(type))
+                            if (FindProperties._properties.ContainsKey(type))
                             {
-                                FindProperties.Properties[type].Add(propertyInfo);
+                                FindProperties._properties[type].Add(propertyInfo);
                             }
                             else
                             {
-                                FindProperties.Properties.Add(type, new List<PropertyInfo>() { propertyInfo });
+                                FindProperties._properties.Add(type, new List<PropertyInfo>() { propertyInfo });
                             }
                         }
 
@@ -55,9 +55,8 @@
                 }
             }
 
-            return FindProperties.Properties;
+            return FindProperties._properties;
         }
-
         #endregion Methods
     }
 }

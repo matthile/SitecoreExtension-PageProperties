@@ -1,17 +1,50 @@
-﻿using System;
-using Sitecore;
-using Sitecore.Data;
-using Sitecore.Data.Items;
-using Sitecore.Shell.Applications.ContentEditor;
-using Sitecore.Web.UI.Pages;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using PageProperties.Attributes;
+using Sitecore.Diagnostics;
+using Sitecore.Web.UI.HtmlControls;
 
 namespace PageProperties.Controls
 {
+    using System;
+
+    using Sitecore;
+    using Sitecore.Data;
+    using Sitecore.Data.Items;
+    using Sitecore.Shell.Applications.ContentEditor;
+    using Sitecore.Web.UI.Pages;
+
     class Edit : DialogForm
     {
+        #region Fields
+
         private Sitecore.Web.UI.HtmlControls.Scrollbox InputFields;
+
         //private Sitecore.Web.UI.HtmlControls.Edit Description;
         Item item;
+
+        #endregion Fields
+
+        #region Methods
+
+        protected void Items_Click(string input)
+        {
+            Console.Write("HELLO!!!");
+        }
+
+        protected bool IsValidField(string fieldname)
+        {
+            var templateFieldItem = item.Template.Fields.Where(field => field.Name == fieldname).DefaultIfEmpty(null).SingleOrDefault();
+
+            if (templateFieldItem == null)
+                return false;
+
+            return true;
+        }
+
+
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -19,12 +52,38 @@ namespace PageProperties.Controls
                 return;
             ItemUri uri = ItemUri.ParseQueryString();
             item = Database.GetItem(uri);
-            MultilistEx list = new MultilistEx();
-            list.Source = "/sitecore/content";
-            list.Height = 100;
-            list.Width = 200;
-            list.ItemID = "{8A63D0F6-06C3-4556-9DC9-897C642F612C}";
-            InputFields.Controls.Add(list);
+            var properties = Reflection.FindProperties.GetProperties();
+
+            foreach (var type in properties)
+            {
+                object instance = null;
+
+                foreach (PropertyInfo propertyInfo in type.Value)
+                {
+                    var attribute = propertyInfo.GetCustomAttributes(typeof(FieldNotVisibleInWebEdit), true).First() as FieldNotVisibleInWebEdit;
+                    if (string.IsNullOrEmpty(attribute.Fieldname) || (!string.IsNullOrEmpty(attribute.Fieldname) && IsValidField(attribute.Fieldname)))
+                    {
+                        // Create the type if its created
+                        if (instance == null)
+                            instance = Activator.CreateInstance(type.Key);
+
+                        Control control = Activator.CreateInstance(attribute.ControlType) as Control;
+                        Assert.IsNotNull(control, "Controltype in attribute, is not a valid Sitecore.Web.UI.HtmlControls control");
+
+                        string propertyResult = propertyInfo.GetValue(instance, null).ToString();
+                        Label controlLabel = new Label();
+                        controlLabel.Value = !string.IsNullOrEmpty(attribute.Name)
+                                                 ? attribute.Name
+                                                 : propertyInfo.Name;
+                        control.Value = propertyResult;
+                        control.ID = string.Format("{0}.{1}_{2}",type.Key.Namespace, type.Key.Name, propertyInfo.Name);
+                        InputFields.Controls.Add(controlLabel);
+                        InputFields.Controls.Add(control);
+
+                    }
+                    
+                }
+            }
 
             //List<Types> typeses = Reflection.GetTypes();
             //foreach (Types typese in typeses)
@@ -55,7 +114,6 @@ namespace PageProperties.Controls
 
             //    }
 
-
             //}
         }
 
@@ -85,15 +143,10 @@ namespace PageProperties.Controls
             //        }
 
             //    }
-                
 
             //}
         }
 
-        protected void Items_Click(string input)
-        {
-            Console.Write("HELLO!!!");
-        }
         void button_OnClick(object sender, EventArgs e)
         {
             foreach (var control in InputFields.Controls)
@@ -101,5 +154,7 @@ namespace PageProperties.Controls
                 var sasd = control;
             }
         }
+
+        #endregion Methods
     }
 }

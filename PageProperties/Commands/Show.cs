@@ -1,27 +1,29 @@
-﻿
-using Sitecore;
-using Sitecore.Configuration;
-using Sitecore.Data;
-using Sitecore.Data.Items;
-using Sitecore.Diagnostics;
-using Sitecore.Globalization;
-using Sitecore.Links;
-using Sitecore.Resources;
-using Sitecore.Shell.Applications.WebEdit.Commands;
-using Sitecore.Shell.Framework.Commands;
-using Sitecore.Sites;
-using Sitecore.Text;
-using Sitecore.Web;
-using Sitecore.Web.UI.Sheer;
-using System;
-using System.Collections.Specialized;
-
-namespace PageProperties.Commands
+﻿namespace PageProperties.Commands
 {
+    using System;
+    using System.Collections.Specialized;
+
+    using Sitecore;
+    using Sitecore.Configuration;
+    using Sitecore.Data;
+    using Sitecore.Data.Items;
+    using Sitecore.Diagnostics;
+    using Sitecore.Globalization;
+    using Sitecore.Links;
+    using Sitecore.Resources;
+    using Sitecore.Shell.Applications.WebEdit.Commands;
+    using Sitecore.Shell.Framework.Commands;
+    using Sitecore.Sites;
+    using Sitecore.Text;
+    using Sitecore.Web;
+    using Sitecore.Web.UI.Sheer;
+
     [UsedImplicitly]
     [Serializable]
     class Show : WebEditCommand
     {
+        #region Methods
+
         /// <summary>
         /// Executes the command in the specified context.
         /// </summary>
@@ -56,5 +58,7 @@ namespace PageProperties.Commands
             itemNotNull.Uri.AddToUrlString(urlString);
             SheerResponse.ShowModalDialog(urlString.ToString(), false);
         }
+
+        #endregion Methods
     }
 }
