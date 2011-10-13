@@ -1,29 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Sitecore.SecurityModel;
-
-namespace PageProperties.SitecoreTest
+﻿namespace PageProperties.SitecoreTest
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    using Sitecore.Data.Items;
+    using Sitecore.SecurityModel;
+
     public class Frontpage
     {
+        #region Constructors
 
-        [PageProperties.Attributes.FieldNotVisibleInWebEdit(Fieldname = "TextBox")]
-        public string TextBox
+        //public Frontpage(Item item)
+        //{
+        //    this._item = item;
+        //}
+        public Frontpage(Item asd)
         {
-            get { return Sitecore.Context.Item["TextBox"]; }
+            this._item = asd;
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        [PageProperties.Attributes.FieldNotVisibleInWebEdit(Fieldname = "Checkbox", ControlType = typeof(Sitecore.Web.UI.HtmlControls.Checkbox))]
+        public string CheckBox
+        {
+            get { return _item["Checkbox"]; }
             set
             {
                 using (new SecurityDisabler())
                 {
-                    Sitecore.Context.Item.Editing.BeginEdit();
-                    Sitecore.Context.Item.Fields["TextBox"].Value = value;
-                    Sitecore.Context.Item.Editing.EndEdit();
-                    Sitecore.Context.Item.Editing.AcceptChanges();
+                    _item.Editing.BeginEdit();
+                    _item.Fields["Checkbox"].Value = value;
+                    _item.Editing.EndEdit();
+                    _item.Editing.AcceptChanges();
 
                 }
             }
         }
+
+        [PageProperties.Attributes.FieldNotVisibleInWebEdit(Fieldname = "TextBox", ControlType = typeof(Sitecore.Web.UI.HtmlControls.Edit))]
+        public string TextBox
+        {
+            get { return _item["TextBox"]; }
+            set
+            {
+                using (new SecurityDisabler())
+                {
+                    _item.Editing.BeginEdit();
+                    _item.Fields["TextBox"].Value = value;
+                    _item.Editing.EndEdit();
+                    _item.Editing.AcceptChanges();
+
+                }
+            }
+        }
+
+        public Item _item
+        {
+            get; set;
+        }
+
+        #endregion Properties
     }
 }

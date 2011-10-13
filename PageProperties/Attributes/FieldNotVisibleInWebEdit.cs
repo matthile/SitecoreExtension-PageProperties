@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Web.UI.WebControls;
 
     public class FieldNotVisibleInWebEdit : Attribute
     {
@@ -16,17 +15,20 @@
 
         #region Properties
 
-        public string Fieldname { get; set; }
-
         public Type ControlType
         {
             get
             {
                 if (this._controlType == null)
-                    return typeof (TextBox);
+                    return typeof(Sitecore.Web.UI.HtmlControls.Edit);
                 return _controlType;
             }
             set { _controlType = value; }
+        }
+
+        public string Fieldname
+        {
+            get; set;
         }
 
         public string Name

@@ -57,6 +57,7 @@
 
             return FindProperties._properties;
         }
+
         #endregion Methods
     }
 }
