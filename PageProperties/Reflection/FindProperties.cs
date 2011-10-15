@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
     using System.Text;
+    using System.Threading.Tasks;
 
     using PageProperties.Attributes;
     using PageProperties.Configuration;
@@ -15,6 +17,7 @@
         #region Fields
 
         private static Dictionary<Type, List<PropertyInfo>> _properties;
+        private static object _syncObject = new object();
 
         #endregion Fields
 
@@ -22,24 +25,49 @@
 
         public static Dictionary<Type, List<PropertyInfo>> GetProperties()
         {
-            if (_properties != null)
-                return FindProperties._properties;
-
-            FindProperties._properties = new Dictionary<Type, List<PropertyInfo>>();
-            var assemblyElements = AssemblySection.GetAssemblies();
-
-            foreach (AssemblyElement assemblyElement in assemblyElements)
+            lock (_syncObject)
             {
-                var assembly = Assembly.Load(assemblyElement.Assembly);
-
-                var types = assembly.GetTypes();
-                foreach (Type type in types)
+                Stopwatch sw = Stopwatch.StartNew();
+                List<Task> tasksContainer = new List<Task>();
+                if (_properties != null)
                 {
-                    var propertyInfos = type.GetProperties();
-                    foreach (PropertyInfo propertyInfo in propertyInfos)
+                    sw.Stop();
+                    Trace.WriteLine(string.Format("Total time taken to search assemblys: {0}ms", sw.ElapsedMilliseconds));
+                    return FindProperties._properties;
+                }
+
+                FindProperties._properties = new Dictionary<Type, List<PropertyInfo>>();
+                var assemblyElements = AssemblySection.GetAssemblies();
+
+                foreach (AssemblyElement assemblyElement in assemblyElements)
+                {
+                    AssemblyElement element = assemblyElement;
+                    Task task = Task.Factory.StartNew(() => SeachAssemblyTask(element));
+                    tasksContainer.Add(task);
+
+                }
+
+                Task.WaitAll(tasksContainer.ToArray());
+                sw.Stop();
+                Trace.WriteLine(string.Format("Total time taken to search assemblys: {0}ms", sw.ElapsedMilliseconds));
+                return FindProperties._properties;
+            }
+        }
+
+        private static void SeachAssemblyTask(AssemblyElement assemblyElement)
+        {
+            var assembly = Assembly.Load(assemblyElement.Assembly);
+
+            var types = assembly.GetTypes();
+            foreach (Type type in types)
+            {
+                var propertyInfos = type.GetProperties();
+                foreach (PropertyInfo propertyInfo in propertyInfos)
+                {
+                    var customAttributes = propertyInfo.GetCustomAttributes(typeof(FieldNotVisibleInWebEditAttribute), true);
+                    if (customAttributes.Count() > 0)
                     {
-                        var customAttributes = propertyInfo.GetCustomAttributes(typeof(FieldNotVisibleInWebEdit), true);
-                        if (customAttributes.Count() > 0)
+                        lock (FindProperties._properties)
                         {
                             if (FindProperties._properties.ContainsKey(type))
                             {
@@ -50,12 +78,10 @@
                                 FindProperties._properties.Add(type, new List<PropertyInfo>() { propertyInfo });
                             }
                         }
-
                     }
+
                 }
             }
-
-            return FindProperties._properties;
         }
 
         #endregion Methods

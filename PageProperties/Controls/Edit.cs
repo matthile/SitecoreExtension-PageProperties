@@ -52,13 +52,15 @@
 
                 foreach (PropertyInfo propertyInfo in type.Value)
                 {
-                    var attribute = propertyInfo.GetCustomAttributes(typeof(FieldNotVisibleInWebEdit), true).First() as FieldNotVisibleInWebEdit;
+                    var attribute = propertyInfo.GetCustomAttributes(typeof(FieldNotVisibleInWebEditAttribute), true).First() as FieldNotVisibleInWebEditAttribute;
                     if (string.IsNullOrEmpty(attribute.Fieldname) || (!string.IsNullOrEmpty(attribute.Fieldname) && IsValidField(attribute.Fieldname)))
                     {
                         // Create the type if its created
                         if (instance == null)
                         {
                             // Ohh! need item in the class, else the database will be core :(
+                            // Dont need a constructor, check if its there, and inject item into it if it is.
+                            // if it aint, make an instance of the class, and just run the property, dont get into whats it is
                             ConstructorInfo constructorInfo = type.Key.GetConstructor(new Type[] {typeof (Item)});
                             Assert.IsNotNull(constructorInfo, "Need a constructor with parameter Sitecore.Data.Items.Item, be sure to save the item, and use it to return field values");
                             instance = Activator.CreateInstance(type.Key, new object[] { this.item });
@@ -71,6 +73,7 @@
                         string controlId = string.Format("{0}.{1}_{2}", type.Key.Namespace, type.Key.Name,
                                                          propertyInfo.Name);
                         Label controlLabel = new Label();
+                        controlLabel.HeaderStyle= "display:box";
                         controlLabel.Header = !string.IsNullOrEmpty(attribute.Name)
                                                  ? attribute.Name
                                                  : propertyInfo.Name;
@@ -79,7 +82,6 @@
                         control.ID = controlId;
                         InputFields.Controls.Add(controlLabel);
                         InputFields.Controls.Add(control);
-
                     }
 
                 }
@@ -98,7 +100,7 @@
 
                 foreach (PropertyInfo propertyInfo in type.Value)
                 {
-                    var attribute = propertyInfo.GetCustomAttributes(typeof(FieldNotVisibleInWebEdit), true).First() as FieldNotVisibleInWebEdit;
+                    var attribute = propertyInfo.GetCustomAttributes(typeof(FieldNotVisibleInWebEditAttribute), true).First() as FieldNotVisibleInWebEditAttribute;
                     if (string.IsNullOrEmpty(attribute.Fieldname) || (!string.IsNullOrEmpty(attribute.Fieldname) && IsValidField(attribute.Fieldname)))
                     {
                         // Create the type if its created

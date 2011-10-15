@@ -52,7 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\FieldNotVisibleInWebEdit.cs" />
+    <Compile Include="Attributes\FieldNotVisibleInWebEditAttribute.cs" />
     <Compile Include="Commands\Show.cs" />
     <Compile Include="Configuration\AssemblyElement.cs" />
     <Compile Include="Configuration\AssemblysCollection.cs" />

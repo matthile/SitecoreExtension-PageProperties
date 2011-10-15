@@ -5,7 +5,8 @@
     using System.Linq;
     using System.Text;
 
-    public class FieldNotVisibleInWebEdit : Attribute
+    [AttributeUsage(AttributeTargets.Property)]
+    public class FieldNotVisibleInWebEditAttribute : Attribute
     {
         #region Fields
 
@@ -15,6 +16,10 @@
 
         #region Properties
 
+        /// <summary>
+        /// this is the control, that will be rendered on pageproperties
+        /// Default is Sitecore.Web.UI.HtmlControls.Edit
+        /// </summary>
         public Type ControlType
         {
             get
@@ -26,6 +31,9 @@
             set { _controlType = value; }
         }
 
+        /// <summary>
+        /// If this is set, the fieldname, will be validated on the current item.
+        /// </summary>
         public string Fieldname
         {
             get; set;
