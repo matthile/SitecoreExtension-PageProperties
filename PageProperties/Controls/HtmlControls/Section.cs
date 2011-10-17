@@ -13,6 +13,12 @@
 
         public string Header
         {
+            get;
+            set;
+        }
+
+        public int Order
+        {
             get; set;
         }
 

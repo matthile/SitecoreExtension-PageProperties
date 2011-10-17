@@ -9,6 +9,7 @@
     using PageProperties.Attributes;
 
     using Sitecore;
+    using Sitecore.Configuration;
     using Sitecore.Data;
     using Sitecore.Data.Items;
     using Sitecore.Diagnostics;
@@ -104,8 +105,7 @@
 
                 }
             }
-
-            foreach (HtmlControls.Section section in _sections.OrderBy(t => t.Key).Select(t => t.Value))
+            foreach (HtmlControls.Section section in _sections.OrderBy(t => t.Value.Order).Select(t => t.Value))
             {
                 InputFields.Controls.Add(section);
             }
@@ -126,12 +126,15 @@
                     var attribute = propertyInfo.GetCustomAttributes(typeof(FieldNotVisibleInWebEditAttribute), true).First() as FieldNotVisibleInWebEditAttribute;
                     if (string.IsNullOrEmpty(attribute.Fieldname) || (!string.IsNullOrEmpty(attribute.Fieldname) && IsValidField(attribute.Fieldname)))
                     {
-                        // Create the type if its created
-                        if (instance == null)
+                        ConstructorInfo constructorInfo = type.Key.GetConstructor(new Type[] { typeof(Item) });
+                        if (constructorInfo == null)
                         {
-                            // Ohh! need item in the class, else the database will be core :(
-                            ConstructorInfo constructorInfo = type.Key.GetConstructor(new Type[] { typeof(Item) });
-                            Assert.IsNotNull(constructorInfo, "Need a constructor with parameter Sitecore.Data.Items.Item, be sure to save the item, and use it to return field values");
+                            // Assumes the class aint need to access the item
+                            instance = Activator.CreateInstance(type.Key, null);
+                        }
+                        else
+                        {
+                            // The class needs access to the item
                             instance = Activator.CreateInstance(type.Key, new object[] { this.item });
                         }
                         string controlId = string.Format("{0}.{1}_{2}", type.Key.Namespace, type.Key.Name,
@@ -162,8 +165,9 @@
         {
             if (this.IsValidField(fieldName))
             {
-
-                var templateFieldItem = item.Template.Fields.Where(field => field.Name == fieldName).SingleOrDefault();
+                Database database = Factory.GetDatabase(item.Database.Name);
+                TemplateItem template = database.GetItem(item.Template.ID, Context.Language);
+                var templateFieldItem = template.Fields.Where(field => field.Name == fieldName).SingleOrDefault();
                 if (templateFieldItem == null)
                     return this._sections["Misc"];
 
@@ -172,16 +176,19 @@
 
                 HtmlControls.Section section = new HtmlControls.Section();
                 section.Header = templateFieldItem.Section.DisplayName;
+                section.Order = templateFieldItem.Section.Sortorder;
                 this._sections.Add(templateFieldItem.Section.DisplayName, section);
                 return section;
             }
             if (this._sections.ContainsKey("misc"))
                 return this._sections["misc"];
 
-            var miscSection = new HtmlControls.Section() { Header = Translate.Text("PagePropertiesGenerealSection") };
-            this._sections.Add("misc", miscSection);
+            using (var miscSection = new HtmlControls.Section() {Header = Translate.Text("General"), Order = int.MaxValue})
+            {
+                this._sections.Add("misc", miscSection);
 
-            return miscSection;
+                return miscSection;
+            }
         }
 
         #endregion Methods
