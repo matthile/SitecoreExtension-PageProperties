@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using Sitecore.Globalization;
-
-namespace PageProperties.Controls
+﻿namespace PageProperties.Controls
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -14,6 +12,7 @@ namespace PageProperties.Controls
     using Sitecore.Data;
     using Sitecore.Data.Items;
     using Sitecore.Diagnostics;
+    using Sitecore.Globalization;
     using Sitecore.Shell.Applications.ContentEditor;
     using Sitecore.Web.UI.HtmlControls;
     using Sitecore.Web.UI.Pages;
