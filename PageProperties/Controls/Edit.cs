@@ -65,21 +65,7 @@
                     var attribute = propertyInfo.GetCustomAttributes(typeof(FieldNotVisibleInWebEditAttribute), true).First() as FieldNotVisibleInWebEditAttribute;
                     if (string.IsNullOrEmpty(attribute.Fieldname) || (!string.IsNullOrEmpty(attribute.Fieldname) && IsValidField(attribute.Fieldname)))
                     {
-                        // Create the type if its created
-                        if (instance == null)
-                        {
-                            ConstructorInfo constructorInfo = type.Key.GetConstructor(new Type[] { typeof(Item) });
-                            if (constructorInfo == null)
-                            {
-                                // Assumes the class aint need to access the item
-                                instance = Activator.CreateInstance(type.Key, null);
-                            }
-                            else
-                            {
-                                // The class needs access to the item
-                                instance = Activator.CreateInstance(type.Key, new object[] { this.item });
-                            }
-                        }
+                        this.PopulateInstance(type, ref instance);
 
                         Control control = Activator.CreateInstance(attribute.ControlType) as Control;
                         Assert.IsNotNull(control, "Controltype in attribute, is not a valid Sitecore.Web.UI.HtmlControls control");
@@ -111,6 +97,24 @@
             }
         }
 
+        private void PopulateInstance(KeyValuePair<Type, List<PropertyInfo>> type, ref object instance)
+        {
+            if (instance == null)
+            {
+                ConstructorInfo constructorInfo = type.Key.GetConstructor(new Type[] { typeof(Item) });
+                if (constructorInfo == null)
+                {
+                    // Assumes the class aint need to access the item
+                    instance = Activator.CreateInstance(type.Key, null);
+                }
+                else
+                {
+                    // The class needs access to the item
+                    instance = Activator.CreateInstance(type.Key, new object[] { this.item });
+                }
+            }
+        }
+
         protected override void OnOK(object sender, EventArgs args)
         {
             ItemUri uri = ItemUri.ParseQueryString();
@@ -126,17 +130,7 @@
                     var attribute = propertyInfo.GetCustomAttributes(typeof(FieldNotVisibleInWebEditAttribute), true).First() as FieldNotVisibleInWebEditAttribute;
                     if (string.IsNullOrEmpty(attribute.Fieldname) || (!string.IsNullOrEmpty(attribute.Fieldname) && IsValidField(attribute.Fieldname)))
                     {
-                        ConstructorInfo constructorInfo = type.Key.GetConstructor(new Type[] { typeof(Item) });
-                        if (constructorInfo == null)
-                        {
-                            // Assumes the class aint need to access the item
-                            instance = Activator.CreateInstance(type.Key, null);
-                        }
-                        else
-                        {
-                            // The class needs access to the item
-                            instance = Activator.CreateInstance(type.Key, new object[] { this.item });
-                        }
+                        PopulateInstance(type, ref instance);
                         string controlId = string.Format("{0}.{1}_{2}", type.Key.Namespace, type.Key.Name,
                                                          propertyInfo.Name);
                         Control foundControl = controlsOnPage.Where(c => c.ID == controlId).DefaultIfEmpty(null).First();
@@ -183,7 +177,7 @@
             if (this._sections.ContainsKey("misc"))
                 return this._sections["misc"];
 
-            using (var miscSection = new HtmlControls.Section() {Header = Translate.Text("General"), Order = int.MaxValue})
+            using (var miscSection = new HtmlControls.Section() { Header = Translate.Text("General"), Order = int.MaxValue })
             {
                 this._sections.Add("misc", miscSection);
 
