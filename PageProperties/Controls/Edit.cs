@@ -1,4 +1,7 @@
-﻿namespace PageProperties.Controls
+﻿using System.Collections;
+using Sitecore.Globalization;
+
+namespace PageProperties.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -20,6 +23,8 @@
     {
         #region Fields
 
+        private readonly Dictionary<string, HtmlControls.Section> _sections = new Dictionary<string, HtmlControls.Section>();
+
         private Sitecore.Web.UI.HtmlControls.Scrollbox InputFields;
         Item item;
 
@@ -29,7 +34,7 @@
 
         protected bool IsValidField(string fieldname)
         {
-            var templateFieldItem = item.Template.Fields.Where(field => field.Name == fieldname).DefaultIfEmpty(null).SingleOrDefault();
+            var templateFieldItem = item.Template.Fields.Where(field => field.Name == fieldname).SingleOrDefault();
 
             if (templateFieldItem == null)
                 return false;
@@ -50,7 +55,12 @@
             {
                 object instance = null;
 
-                foreach (PropertyInfo propertyInfo in type.Value)
+                List<string> asd = new List<string>();
+                foreach (PropertyInfo propertyInfo in type.Value.OrderBy(t =>
+                                                                             {
+                                                                                 var attribute = t.GetCustomAttributes(typeof(FieldNotVisibleInWebEditAttribute), true).First() as FieldNotVisibleInWebEditAttribute;
+                                                                                 return attribute.Order;
+                                                                             }))
                 {
                     var attribute = propertyInfo.GetCustomAttributes(typeof(FieldNotVisibleInWebEditAttribute), true).First() as FieldNotVisibleInWebEditAttribute;
                     if (string.IsNullOrEmpty(attribute.Fieldname) || (!string.IsNullOrEmpty(attribute.Fieldname) && IsValidField(attribute.Fieldname)))
@@ -58,12 +68,17 @@
                         // Create the type if its created
                         if (instance == null)
                         {
-                            // Ohh! need item in the class, else the database will be core :(
-                            // Dont need a constructor, check if its there, and inject item into it if it is.
-                            // if it aint, make an instance of the class, and just run the property, dont get into whats it is
-                            ConstructorInfo constructorInfo = type.Key.GetConstructor(new Type[] {typeof (Item)});
-                            Assert.IsNotNull(constructorInfo, "Need a constructor with parameter Sitecore.Data.Items.Item, be sure to save the item, and use it to return field values");
-                            instance = Activator.CreateInstance(type.Key, new object[] { this.item });
+                            ConstructorInfo constructorInfo = type.Key.GetConstructor(new Type[] { typeof(Item) });
+                            if (constructorInfo == null)
+                            {
+                                // Assumes the class aint need to access the item
+                                instance = Activator.CreateInstance(type.Key, null);
+                            }
+                            else
+                            {
+                                // The class needs access to the item
+                                instance = Activator.CreateInstance(type.Key, new object[] { this.item });
+                            }
                         }
 
                         Control control = Activator.CreateInstance(attribute.ControlType) as Control;
@@ -73,18 +88,27 @@
                         string controlId = string.Format("{0}.{1}_{2}", type.Key.Namespace, type.Key.Name,
                                                          propertyInfo.Name);
                         Label controlLabel = new Label();
-                        controlLabel.HeaderStyle= "display:box";
+                        controlLabel.Style.Add("display", "block");
                         controlLabel.Header = !string.IsNullOrEmpty(attribute.Name)
                                                  ? attribute.Name
                                                  : propertyInfo.Name;
                         controlLabel.For = controlId;
                         control.Value = propertyResult;
+                        control.Style.Add("display", "block");
                         control.ID = controlId;
-                        InputFields.Controls.Add(controlLabel);
-                        InputFields.Controls.Add(control);
+
+                        PageProperties.Controls.HtmlControls.Section section = this.GetSectionControl(attribute.Fieldname);
+
+                        section.Controls.Add(controlLabel);
+                        section.Controls.Add(control);
                     }
 
                 }
+            }
+
+            foreach (HtmlControls.Section section in _sections.OrderBy(t => t.Key).Select(t => t.Value))
+            {
+                InputFields.Controls.Add(section);
             }
         }
 
@@ -93,7 +117,7 @@
             ItemUri uri = ItemUri.ParseQueryString();
             item = Database.GetItem(uri);
             var properties = Reflection.FindProperties.GetProperties();
-
+            IEnumerable<Control> controlsOnPage = this.GetControls();
             foreach (var type in properties)
             {
                 object instance = null;
@@ -113,7 +137,7 @@
                         }
                         string controlId = string.Format("{0}.{1}_{2}", type.Key.Namespace, type.Key.Name,
                                                          propertyInfo.Name);
-                        Control foundControl = InputFields.Controls.OfType<Control>().Where(c => c.ID == controlId).DefaultIfEmpty(null).First();
+                        Control foundControl = controlsOnPage.Where(c => c.ID == controlId).DefaultIfEmpty(null).First();
                         Assert.IsNotNull(foundControl, "Could not find the control {0}", controlId);
                         propertyInfo.SetValue(instance, foundControl.Value, null);
                     }
@@ -122,6 +146,43 @@
 
                 SheerResponse.CloseWindow();
             }
+        }
+
+        private IEnumerable<Control> GetControls()
+        {
+            foreach (Control sectionControl in InputFields.Controls)
+            {
+                foreach (Control control in sectionControl.Controls)
+                {
+                    yield return control;
+                }
+            }
+        }
+
+        private HtmlControls.Section GetSectionControl(string fieldName)
+        {
+            if (this.IsValidField(fieldName))
+            {
+
+                var templateFieldItem = item.Template.Fields.Where(field => field.Name == fieldName).SingleOrDefault();
+                if (templateFieldItem == null)
+                    return this._sections["Misc"];
+
+                if (this._sections.ContainsKey(templateFieldItem.Section.DisplayName))
+                    return this._sections[templateFieldItem.Section.DisplayName];
+
+                HtmlControls.Section section = new HtmlControls.Section();
+                section.Header = templateFieldItem.Section.DisplayName;
+                this._sections.Add(templateFieldItem.Section.DisplayName, section);
+                return section;
+            }
+            if (this._sections.ContainsKey("misc"))
+                return this._sections["misc"];
+
+            var miscSection = new HtmlControls.Section() { Header = Translate.Text("PagePropertiesGenerealSection") };
+            this._sections.Add("misc", miscSection);
+
+            return miscSection;
         }
 
         #endregion Methods

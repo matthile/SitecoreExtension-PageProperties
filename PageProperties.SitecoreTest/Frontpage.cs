@@ -42,7 +42,41 @@
             }
         }
 
-        [PageProperties.Attributes.FieldNotVisibleInWebEdit(Fieldname = "TextBox", ControlType = typeof(Sitecore.Web.UI.HtmlControls.Edit))]
+        [PageProperties.Attributes.FieldNotVisibleInWebEdit(Fieldname = "__Display name")]
+        public string Displayname
+        {
+            get { return _item[Sitecore.FieldIDs.DisplayName]; }
+            set
+            {
+                using (new SecurityDisabler())
+                {
+                    _item.Editing.BeginEdit();
+                    _item.Fields[Sitecore.FieldIDs.DisplayName].Value = value;
+                    _item.Editing.EndEdit();
+                    _item.Editing.AcceptChanges();
+
+                }
+            }
+        }
+
+        [PageProperties.Attributes.FieldNotVisibleInWebEdit(Order = 2,ControlType = typeof(Sitecore.Web.UI.HtmlControls.Edit))]
+        public string Testting
+        {
+            get { return _item["TextBox"]; }
+            set
+            {
+                using (new SecurityDisabler())
+                {
+                    _item.Editing.BeginEdit();
+                    _item.Fields["TextBox"].Value = value;
+                    _item.Editing.EndEdit();
+                    _item.Editing.AcceptChanges();
+
+                }
+            }
+        }
+
+        [PageProperties.Attributes.FieldNotVisibleInWebEdit(Order = 1,ControlType = typeof(Sitecore.Web.UI.HtmlControls.Edit))]
         public string TextBox
         {
             get { return _item["TextBox"]; }

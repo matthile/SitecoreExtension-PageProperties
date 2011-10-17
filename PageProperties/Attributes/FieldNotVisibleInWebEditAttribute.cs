@@ -11,6 +11,7 @@
         #region Fields
 
         private Type _controlType;
+        private int _order;
 
         #endregion Fields
 
@@ -36,17 +37,32 @@
         /// </summary>
         public string Fieldname
         {
-            get; set;
+            get;
+            set;
         }
 
         public string Name
         {
-            get; set;
+            get;
+            set;
+        }
+
+        public int Order
+        {
+            get
+            {
+                if (this._order == 0)
+                    return int.MaxValue;
+                return this._order;
+
+            }
+            set { _order = value; }
         }
 
         public bool Visible
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties

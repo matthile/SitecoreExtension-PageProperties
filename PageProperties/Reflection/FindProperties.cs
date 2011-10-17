@@ -16,8 +16,9 @@
     {
         #region Fields
 
+        private static readonly object SyncObject = new object();
+
         private static Dictionary<Type, List<PropertyInfo>> _properties;
-        private static object _syncObject = new object();
 
         #endregion Fields
 
@@ -25,7 +26,7 @@
 
         public static Dictionary<Type, List<PropertyInfo>> GetProperties()
         {
-            lock (_syncObject)
+            lock (SyncObject)
             {
                 Stopwatch sw = Stopwatch.StartNew();
                 List<Task> tasksContainer = new List<Task>();
@@ -42,19 +43,19 @@
                 foreach (AssemblyElement assemblyElement in assemblyElements)
                 {
                     AssemblyElement element = assemblyElement;
-                    Task task = Task.Factory.StartNew(() => SeachAssemblyTask(element));
+                    Task task = Task.Factory.StartNew(() => SearchAssemblyTask(element));
                     tasksContainer.Add(task);
 
                 }
 
                 Task.WaitAll(tasksContainer.ToArray());
                 sw.Stop();
-                Trace.WriteLine(string.Format("Total time taken to search assemblys: {0}ms", sw.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Total time taken to search assemblies: {0}ms", sw.ElapsedMilliseconds));
                 return FindProperties._properties;
             }
         }
 
-        private static void SeachAssemblyTask(AssemblyElement assemblyElement)
+        private static void SearchAssemblyTask(AssemblyElement assemblyElement)
         {
             var assembly = Assembly.Load(assemblyElement.Assembly);
 
