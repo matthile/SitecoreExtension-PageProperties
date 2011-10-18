@@ -1,4 +1,6 @@
-﻿namespace PageProperties.Reflection
+﻿using System.IO;
+
+namespace PageProperties.Reflection
 {
     using System;
     using System.Collections.Generic;
@@ -57,31 +59,38 @@
 
         private static void SearchAssemblyTask(AssemblyElement assemblyElement)
         {
-            var assembly = Assembly.Load(assemblyElement.Assembly);
-
-            var types = assembly.GetTypes();
-            foreach (Type type in types)
+            try
             {
-                var propertyInfos = type.GetProperties();
-                foreach (PropertyInfo propertyInfo in propertyInfos)
+                var assembly = Assembly.Load(assemblyElement.Assembly);
+
+                var types = assembly.GetTypes();
+                foreach (Type type in types)
                 {
-                    var customAttributes = propertyInfo.GetCustomAttributes(typeof(FieldNotVisibleInWebEditAttribute), true);
-                    if (customAttributes.Count() > 0)
+                    var propertyInfos = type.GetProperties();
+                    foreach (PropertyInfo propertyInfo in propertyInfos)
                     {
-                        lock (FindProperties._properties)
+                        var customAttributes = propertyInfo.GetCustomAttributes(typeof(FieldNotVisibleInWebEditAttribute), true);
+                        if (customAttributes.Count() > 0)
                         {
-                            if (FindProperties._properties.ContainsKey(type))
+                            lock (FindProperties._properties)
                             {
-                                FindProperties._properties[type].Add(propertyInfo);
-                            }
-                            else
-                            {
-                                FindProperties._properties.Add(type, new List<PropertyInfo>() { propertyInfo });
+                                if (FindProperties._properties.ContainsKey(type))
+                                {
+                                    FindProperties._properties[type].Add(propertyInfo);
+                                }
+                                else
+                                {
+                                    FindProperties._properties.Add(type, new List<PropertyInfo>() { propertyInfo });
+                                }
                             }
                         }
-                    }
 
+                    }
                 }
+            }
+            catch (FileNotFoundException notFound)
+            {
+                throw new FileNotFoundException(string.Format("PageProperties: Could not find {0}", notFound.FileName));
             }
         }
 
