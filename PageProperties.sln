@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageProperties", "PageProperties\PageProperties.csproj", "{7ED65C2D-2265-4282-BEF8-2E5B0CC29757}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageProperties", "Source\PageProperties\PageProperties.csproj", "{7ED65C2D-2265-4282-BEF8-2E5B0CC29757}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageProperties.Tests", "PageProperties.Tests\PageProperties.Tests.csproj", "{DFEBBEDB-ACA2-4B72-AE08-CCD89F3465B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageProperties.Tests", "Source\PageProperties.Tests\PageProperties.Tests.csproj", "{DFEBBEDB-ACA2-4B72-AE08-CCD89F3465B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageProperties.SitecoreTest", "PageProperties.SitecoreTest\PageProperties.SitecoreTest.csproj", "{D328B86C-691B-4028-83D5-A247562EB38F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageProperties.SitecoreTest", "Source\PageProperties.SitecoreTest\PageProperties.SitecoreTest.csproj", "{D328B86C-691B-4028-83D5-A247562EB38F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3300CDB1-D562-463E-8722-D2615F4CC447}"
 	ProjectSection(SolutionItems) = preProject
