@@ -58,13 +58,6 @@
             }
             set { _order = value; }
         }
-
-        public bool Visible
-        {
-            get;
-            set;
-        }
-
         #endregion Properties
     }
 }
