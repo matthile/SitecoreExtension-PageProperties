@@ -6,14 +6,29 @@
 
             <CodeBeside Type="PageProperties.Controls.Edit,PageProperties"/>
 
-            <Script>
-                function GetInput(){
-                    var test = "";
-                    $('#InputFields input').each(function(){
-                        test = test + "," + $(this).val();
-                    });
-                }
-            </Script>
+          <style>
+            .wrapper {
+            margin: 20px;
+            position: relative;
+            }
+
+            .wrapper input {
+            width: 90%;
+            padding: 3px 2%;
+            margin-bottom: 10px;
+            }
+
+            .wrapper input[type="checkbox"] {
+            width: 13px
+            }
+
+            .wrapper h2 {
+            padding: 0;
+            margin: 0 0 15px;
+            }
+
+
+          </style>
 
             <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
                 <GridPanel Width="100%" Columns="2">

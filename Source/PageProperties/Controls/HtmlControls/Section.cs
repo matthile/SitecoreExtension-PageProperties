@@ -29,9 +29,11 @@
         protected override void DoRender(System.Web.UI.HtmlTextWriter output)
         {
             this.SetWidthAndHeightStyle();
+            output.Write("<div class=\"wrapper\">");
             output.Write("<div class=\"Section\">");
             output.Write("<h2>" + this.Header + "</h2>");
             this.RenderChildren(output);
+            output.Write("</div>");
             output.Write("</div>");
         }
 
