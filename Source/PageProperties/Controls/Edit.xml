@@ -11,11 +11,14 @@
             margin: 20px;
             position: relative;
             }
-
+            .wrapper label{
+            display:block;
+            }
             .wrapper input {
             width: 90%;
             padding: 3px 2%;
             margin-bottom: 10px;
+            display:block;
             }
 
             .wrapper input[type="checkbox"] {

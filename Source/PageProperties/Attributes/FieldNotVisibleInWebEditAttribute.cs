@@ -41,12 +41,18 @@
             set;
         }
 
+        /// <summary>
+        /// Overrides the default Label text
+        /// </summary>
         public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Overrides the default order
+        /// </summary>
         public int Order
         {
             get

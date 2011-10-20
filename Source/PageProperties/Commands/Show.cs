@@ -41,19 +41,32 @@
                 itemID = itemUri.ItemID.ToString();
 
             parameters["itemid"] = itemID;
-
             string language = context.Parameters["language"];
             if (string.IsNullOrEmpty(language))
                 language = itemUri.Language.ToString();
 
+            Sitecore.Data.Version version = itemUri.Version;
+
+            parameters["database"] = itemUri.DatabaseName;
             parameters["language"] = language;
             parameters["navigate"] = context.Parameters["navigate"];
+            parameters["version"] = version.ToString();
             Context.ClientPage.Start((object)this, "Run", parameters);
+        }
+
+        public override CommandState QueryState(CommandContext context)
+        {
+            if (!WebEditCommand.CanWebEdit() || WebUtil.GetQueryString("mode") != "edit" || context.Items.Length == 0)
+            {
+                return CommandState.Hidden;
+            }
+
+            return base.QueryState(context);
         }
 
         protected void Run(ClientPipelineArgs args)
         {
-            Item itemNotNull = Sitecore.Client.GetItemNotNull(args.Parameters["itemid"], Language.Parse(args.Parameters["language"]));
+            Item itemNotNull = Sitecore.Client.GetItemNotNull(args.Parameters["itemid"], Language.Parse(args.Parameters["language"]), new Sitecore.Data.Version(args.Parameters["version"]), Database.GetDatabase(args.Parameters["database"]));
             UrlString urlString = ResourceUri.Parse("Control:PageProperties.Edit").ToUrlString();
             itemNotNull.Uri.AddToUrlString(urlString);
             SheerResponse.ShowModalDialog(urlString.ToString(), false);

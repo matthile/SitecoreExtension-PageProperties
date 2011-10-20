@@ -74,13 +74,11 @@
                         string controlId = string.Format("{0}.{1}_{2}", type.Key.Namespace, type.Key.Name,
                                                          propertyInfo.Name);
                         Label controlLabel = new Label();
-                        controlLabel.Style.Add("display", "block");
                         controlLabel.Header = !string.IsNullOrEmpty(attribute.Name)
                                                  ? attribute.Name
                                                  : propertyInfo.Name;
                         controlLabel.For = controlId;
                         control.Value = propertyResult;
-                        control.Style.Add("display", "block");
                         control.ID = controlId;
 
                         PageProperties.Controls.HtmlControls.Section section = this.GetSectionControl(attribute.Fieldname);
