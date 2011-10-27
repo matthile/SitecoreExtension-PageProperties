@@ -2,9 +2,9 @@
 <package >
   <metadata>
     <id>PageProperties.Sitecore</id>
-    <version>1.0</version>
-    <authors>dunston</authors>
-    <owners>dunston</owners>
+    <version>1.1</version>
+    <authors>thj</authors>
+    <owners>1508 A/S</owners>
     <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
     <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
     <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>

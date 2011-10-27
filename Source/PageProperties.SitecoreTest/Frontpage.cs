@@ -42,7 +42,7 @@
             }
         }
 
-        [PageProperties.Attributes.FieldNotVisibleInWebEdit(Fieldname = "__Display name")]
+        [PageProperties.Attributes.FieldNotVisibleInWebEdit(Fieldname = "__Display name", ControlType = typeof(CustomControl))]
         public string Displayname
         {
             get { return _item[Sitecore.FieldIDs.DisplayName]; }

@@ -39,12 +39,37 @@
             if (templateFieldItem == null)
                 return false;
 
+            //todo validate user rights
+
             return true;
+        }
+
+        private string GetDescription(string fieldname)
+        {
+            if (this.IsValidField(fieldname))
+            {
+                var templateFieldItem = item.Template.Fields.Where(field => field.Name == fieldname).SingleOrDefault();
+                return templateFieldItem.ToolTip;
+            }
+
+            return string.Empty;
+        }
+
+        private string GetToolTip(string fieldname)
+        {
+            if (this.IsValidField(fieldname))
+            {
+                var templateFieldItem = item.Template.Fields.Where(field => field.Name == fieldname).SingleOrDefault();
+                return templateFieldItem.Description;
+            }
+
+            return string.Empty;
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+
             if (Context.ClientPage.IsEvent)
                 return;
             ItemUri uri = ItemUri.ParseQueryString();
@@ -74,9 +99,15 @@
                         string controlId = string.Format("{0}.{1}_{2}", type.Key.Namespace, type.Key.Name,
                                                          propertyInfo.Name);
                         Label controlLabel = new Label();
-                        controlLabel.Header = !string.IsNullOrEmpty(attribute.Name)
-                                                 ? attribute.Name
-                                                 : propertyInfo.Name;
+                        string header = !string.IsNullOrEmpty(attribute.Name)
+                                       ? attribute.Name
+                                       : propertyInfo.Name;
+                        string description = this.GetDescription(attribute.Fieldname);
+                        if (!string.IsNullOrEmpty(description))
+                            header += string.Format(" - {0}", description);
+
+                        controlLabel.Header = header;
+                        controlLabel.ToolTip = this.GetToolTip(attribute.Fieldname);
                         controlLabel.For = controlId;
                         control.Value = propertyResult;
                         control.ID = controlId;
@@ -94,6 +125,8 @@
                 InputFields.Controls.Add(section);
             }
         }
+
+        
 
         private void PopulateInstance(KeyValuePair<Type, List<PropertyInfo>> type, ref object instance)
         {
