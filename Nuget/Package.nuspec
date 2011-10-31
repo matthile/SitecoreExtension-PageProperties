@@ -1,19 +1,33 @@
 <?xml version="1.0"?>
 <package >
-  <metadata>
-    <id>PageProperties.Sitecore</id>
-    <version>1.1</version>
-    <authors>thj</authors>
-    <owners>1508 A/S</owners>
-    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
-    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
-    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Package description</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
-    <copyright>Copyright 2011</copyright>
-    <tags>Tag1 Tag2</tags>
-    <dependencies>
-    </dependencies>
-  </metadata>
+	<metadata>
+		<id>SitecoreExtension.PageProperties</id>
+		<version>1.1</version>
+		<authors>Thor Jakobsen @ 1508.dk</authors>
+		<owners>1508 A/S</owners>
+		<licenseUrl>http://creativecommons.org/licenses/by/3.0/</licenseUrl>
+		<projectUrl>https://github.com/1508/SitecoreExtension-PageProperties</projectUrl>
+		<iconUrl>http://www.sitecore.net/favicon.ico</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<summary>
+			Sitecore Editor for the Page Edit ribbon to allow editors to edit the "hidden" page properties.
+		</summary>
+		<description>
+			Sitecore Editor for the Page Edit ribbon to allow editors to edit the "hidden" page properties, such as the Display Name, Meta Description or Taxonomy.
+			The Page properties dialog box generates its controls based on the item context and validates on the existence of specific field names prior to displaying the related control type for the fields.
+
+			Requires Sitecore 6.x and Sitecore Rocks.
+		</description>
+		<releaseNotes>
+			Version 1.1 - Added template sections
+			Version 1.0 - Initial release
+		</releaseNotes>
+		<copyright>http://creativecommons.org/licenses/by/3.0/</copyright>
+		<tags>Sitecore PageEditor Reflection</tags>
+		<dependencies>
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="**\*.*" exclude="Build-NuGet-Package.cmd;NuGet.exe" />
+	</files>
 </package>

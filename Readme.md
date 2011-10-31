@@ -1,9 +1,28 @@
-#PageProperties for sitecore
-A Sitecore Editor for the Page Edit ribbon to allow editors to edit the "hidden" page properties, such as the Display Name, Meta Description or Taxonomy. 
-Keeping the view simple an keeping them out of the Sitecore content editor as long as possible.
+# SitecoreExtension.PageProperties 
 
-Uses attributes on Item Class's for runtime field discovery. 
-Can change properties on Sitecore Items or your own custom properties, based on your Item Class implementation.
+A Sitecore Editor for the Page Edit ribbon to allow editors to edit the "hidden" page properties, such as the Display Name, Meta Description or Taxonomy. 
+Keeping the view simple an keeping the editor in the page editor context.
+
+Feel free to contribute to the project.
+
+1508 / Design in Love with Technology
+
+-------
+
+## The Page Property Editor
+Using the existing context menu in the Page Editor was the most natural placement for the page property editor. It shows only in edit mode and opens a dialog box, where the user can edit the item fields that are otherwise hidden or malplaced in the web interface. 
+
+The Page properties dialog box generates its controls based on the item context and validates on the existence of specific field names prior to displaying the related control type for the fields.
+
+Our projects uses Item code generation and therefore the most elegant model for handling the mapping of fields was to use Attributes set on properties on the generated Item code. At runtime the Page Property Editor uses reflection to find these attributes and validates if it should be rendered to the editor. Using the attributes custom Controls can be used in the Page Property interface (e.g. Checkboxes or Google Maps)
+
+The code behind is simply using the get and set of the property, in combination with the possibility to render with a custom control. The same model as the Item Raw Values rendered through custom controls. Giving a very flexible use range for the editor.
+
+The interface is generated with the current language context and using the field mapping information the relevant template sections and field help is injected in the editor interface, there by keeping most of the native Content Editor features but removing irrelevant fields that e.g. are already editable from the web page in the page editor.
+
+You can install the editor with nuget via a local package, this requires Sitecore Rocks and that the package is located in a local nuget package feed.
+
+-------
 
 ## Documentation
 	[PageProperties.Attributes.FieldNotVisibleInWebEdit(Fieldname = "Checkbox", ControlType = typeof(Sitecore.Web.UI.HtmlControls.Checkbox))]
@@ -41,8 +60,9 @@ Default name is the property name
 Modifies the order of the rendered fields.
 Default is int.MaxValue
 
-___
-##TODO List
+-------
+
+## Possible improvments / TODO List 
 * Allow custom field validation through the attributes on the class
 * Check the order, on the template item if it can be found there
 * Check Display name, instead of using propertyname
