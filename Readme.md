@@ -45,4 +45,4 @@ ___
 ##TODO List
 * Allow custom field validation through the attributes on the class
 * Check the order, on the template item if it can be found there
-* Check Display name, insted of using propertyname
+* Check Display name, instead of using propertyname
