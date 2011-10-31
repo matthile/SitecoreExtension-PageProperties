@@ -10,8 +10,7 @@ Keeping the view simple an keeping the editor in the page editor context.
 * Sitecore Rocks (for installing Sitecore Items)
 
 ## Installation 
-Install via nuget install-package SitecoreExtension.PageProperties
-
+Install via nuget install-package SitecoreExtension.PageProperties on the Sitecore Rocks attached web project.
 Set the Assemblies that are reflected at runtime in Web.Config > PageProperties > Assemblys
 
 -------
