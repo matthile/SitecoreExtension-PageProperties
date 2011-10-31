@@ -6,7 +6,7 @@ Keeping the view simple an keeping the editor in the page editor context.
 1508 / Design in Love with Technology / http://1508.dk
 
 ## Requirements
-* Sitecore 6.x 
+* Sitecore 6.4+ 
 * Sitecore Rocks (for installing Sitecore Items)
 
 ## Installation 
