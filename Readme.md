@@ -5,7 +5,7 @@ Keeping the view simple an keeping the editor in the page editor context.
 
 Feel free to contribute to the project.
 
-1508 / Design in Love with Technology
+1508 / Design in Love with Technology (http://1508.dk)
 
 -------
 
@@ -62,7 +62,7 @@ Default is int.MaxValue
 
 -------
 
-## Possible improvments / TODO List 
+## TODO List / Possible improvements 
 * Allow custom field validation through the attributes on the class
 * Check the order, on the template item if it can be found there
 * Check Display name, instead of using propertyname
