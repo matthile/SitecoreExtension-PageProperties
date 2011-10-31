@@ -7,7 +7,7 @@ Keeping the view simple an keeping the editor in the page editor context.
 
 ## Requirements
 * Sitecore 6.x 
-* Sitecore Rocks
+* Sitecore Rocks (for installing Sitecore Items)
 
 ## Installation 
 Install via nuget install-package SitecoreExtension.PageProperties
