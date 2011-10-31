@@ -1,11 +1,18 @@
-# SitecoreExtension.PageProperties 
+# Page Property Editor for Sitecore Page Editor Mode
 
 A Sitecore Editor for the Page Edit ribbon to allow editors to edit the "hidden" page properties, such as the Display Name, Meta Description or Taxonomy. 
 Keeping the view simple an keeping the editor in the page editor context.
 
-Feel free to contribute to the project.
+1508 / Design in Love with Technology / http://1508.dk
 
-1508 / Design in Love with Technology (http://1508.dk)
+## Requirements
+* Sitecore 6.x 
+* Sitecore Rocks
+
+## Installation 
+Install via nuget install-package SitecoreExtension.PageProperties
+
+Set the Assemblies that are reflected at runtime in Web.Config > PageProperties > Assemblys
 
 -------
 
@@ -48,21 +55,36 @@ This example makes a checkbox, and with Fieldname set it will validate if the cu
 Sets the fieldname, in the template.
 Used to validate that the template has that field
 
-### ControlType
+#### ControlType
 Sets the control, that will get rendered.
 Must derive from Sitecore.Web.UI.HtmlControls.Control
 
-### Name
+#### Name
 Overrides the default label name.
 Default name is the property name
 
-### Order
+#### Order
 Modifies the order of the rendered fields.
 Default is int.MaxValue
 
+
+## Configuration
+	  <configSections>
+		<section name="PageProperties" type="PageProperties.Configuration.AssemblySection, PageProperties" />
+	  </configSections>
+
+	  <PageProperties>
+		<Assemblys>
+		  <!-- Add Assemblies that will be scanned at runtime for attributes-->	
+		  <Add Assembly="PageProperties" />
+		</Assemblys>
+	  </PageProperties>
+
 -------
 
-## TODO List / Possible improvements 
+## Possible improvements 
+* Use the Field Display name instead of using the Property name
+* Use the template sort order from the template item, if exists
 * Allow custom field validation through the attributes on the class
-* Check the order, on the template item if it can be found there
-* Check Display name, instead of using propertyname
+
+Feel free to contribute!

@@ -5,6 +5,8 @@
   </configSections>
   <PageProperties>
     <Assemblys>
+    <!-- Add Assemblies that will be scanned at runtime for attributes-->	
+	<!-- <Add Assembly="PageProperties" /> -->
     </Assemblys>
   </PageProperties>
 </configuration>
