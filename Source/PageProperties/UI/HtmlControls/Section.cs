@@ -1,10 +1,5 @@
-﻿namespace PageProperties.Controls.HtmlControls
+﻿namespace SitecoreExtension.PageProperties.UI.HtmlControls
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
     using Sitecore.Web.UI.HtmlControls;
 
     class Section : Control

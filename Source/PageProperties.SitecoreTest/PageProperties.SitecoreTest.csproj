@@ -58,9 +58,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PageProperties\PageProperties.csproj">
+    <ProjectReference Include="..\PageProperties\SitecoreExtension.PageProperties.csproj">
       <Project>{7ED65C2D-2265-4282-BEF8-2E5B0CC29757}</Project>
-      <Name>PageProperties</Name>
+      <Name>SitecoreExtension.PageProperties</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

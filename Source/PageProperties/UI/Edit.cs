@@ -1,12 +1,11 @@
-﻿namespace PageProperties.Controls
+﻿namespace SitecoreExtension.PageProperties.UI
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
 
-    using PageProperties.Attributes;
+    using SitecoreExtension.PageProperties.Attributes;
 
     using Sitecore;
     using Sitecore.Configuration;
@@ -14,16 +13,17 @@
     using Sitecore.Data.Items;
     using Sitecore.Diagnostics;
     using Sitecore.Globalization;
-    using Sitecore.Shell.Applications.ContentEditor;
     using Sitecore.Web.UI.HtmlControls;
     using Sitecore.Web.UI.Pages;
     using Sitecore.Web.UI.Sheer;
+
+    using Section = SitecoreExtension.PageProperties.UI.HtmlControls.Section;
 
     class Edit : DialogForm
     {
         #region Fields
 
-        private readonly Dictionary<string, HtmlControls.Section> _sections = new Dictionary<string, HtmlControls.Section>();
+        private readonly Dictionary<string, Section> _sections = new Dictionary<string, Section>();
 
         private Sitecore.Web.UI.HtmlControls.Scrollbox InputFields;
         Item item;
@@ -42,28 +42,6 @@
             //todo validate user rights
 
             return true;
-        }
-
-        private string GetDescription(string fieldname)
-        {
-            if (this.IsValidField(fieldname))
-            {
-                var templateFieldItem = item.Template.Fields.Where(field => field.Name == fieldname).SingleOrDefault();
-                return templateFieldItem.ToolTip;
-            }
-
-            return string.Empty;
-        }
-
-        private string GetToolTip(string fieldname)
-        {
-            if (this.IsValidField(fieldname))
-            {
-                var templateFieldItem = item.Template.Fields.Where(field => field.Name == fieldname).SingleOrDefault();
-                return templateFieldItem.Description;
-            }
-
-            return string.Empty;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -112,7 +90,7 @@
                         control.Value = propertyResult;
                         control.ID = controlId;
 
-                        PageProperties.Controls.HtmlControls.Section section = this.GetSectionControl(attribute.Fieldname);
+                        Section section = this.GetSectionControl(attribute.Fieldname);
 
                         section.Controls.Add(controlLabel);
                         section.Controls.Add(control);
@@ -120,29 +98,9 @@
 
                 }
             }
-            foreach (HtmlControls.Section section in _sections.OrderBy(t => t.Value.Order).Select(t => t.Value))
+            foreach (Section section in _sections.OrderBy(t => t.Value.Order).Select(t => t.Value))
             {
                 InputFields.Controls.Add(section);
-            }
-        }
-
-        
-
-        private void PopulateInstance(KeyValuePair<Type, List<PropertyInfo>> type, ref object instance)
-        {
-            if (instance == null)
-            {
-                ConstructorInfo constructorInfo = type.Key.GetConstructor(new Type[] { typeof(Item) });
-                if (constructorInfo == null)
-                {
-                    // Assumes the class aint need to access the item
-                    instance = Activator.CreateInstance(type.Key, null);
-                }
-                else
-                {
-                    // The class needs access to the item
-                    instance = Activator.CreateInstance(type.Key, new object[] { this.item });
-                }
             }
         }
 
@@ -186,7 +144,18 @@
             }
         }
 
-        private HtmlControls.Section GetSectionControl(string fieldName)
+        private string GetDescription(string fieldname)
+        {
+            if (this.IsValidField(fieldname))
+            {
+                var templateFieldItem = item.Template.Fields.Where(field => field.Name == fieldname).SingleOrDefault();
+                return templateFieldItem.ToolTip;
+            }
+
+            return string.Empty;
+        }
+
+        private Section GetSectionControl(string fieldName)
         {
             if (this.IsValidField(fieldName))
             {
@@ -199,7 +168,7 @@
                 if (this._sections.ContainsKey(templateFieldItem.Section.DisplayName))
                     return this._sections[templateFieldItem.Section.DisplayName];
 
-                HtmlControls.Section section = new HtmlControls.Section();
+                Section section = new Section();
                 section.Header = templateFieldItem.Section.DisplayName;
                 section.Order = templateFieldItem.Section.Sortorder;
                 this._sections.Add(templateFieldItem.Section.DisplayName, section);
@@ -208,11 +177,40 @@
             if (this._sections.ContainsKey("misc"))
                 return this._sections["misc"];
 
-            using (var miscSection = new HtmlControls.Section() { Header = Translate.Text("General"), Order = int.MaxValue })
+            using (var miscSection = new Section() { Header = Translate.Text("General"), Order = int.MaxValue })
             {
                 this._sections.Add("misc", miscSection);
 
                 return miscSection;
+            }
+        }
+
+        private string GetToolTip(string fieldname)
+        {
+            if (this.IsValidField(fieldname))
+            {
+                var templateFieldItem = item.Template.Fields.Where(field => field.Name == fieldname).SingleOrDefault();
+                return templateFieldItem.Description;
+            }
+
+            return string.Empty;
+        }
+
+        private void PopulateInstance(KeyValuePair<Type, List<PropertyInfo>> type, ref object instance)
+        {
+            if (instance == null)
+            {
+                ConstructorInfo constructorInfo = type.Key.GetConstructor(new Type[] { typeof(Item) });
+                if (constructorInfo == null)
+                {
+                    // Assumes the class aint need to access the item
+                    instance = Activator.CreateInstance(type.Key, null);
+                }
+                else
+                {
+                    // The class needs access to the item
+                    instance = Activator.CreateInstance(type.Key, new object[] { this.item });
+                }
             }
         }
 

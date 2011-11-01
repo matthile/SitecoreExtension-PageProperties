@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageProperties", "Source\PageProperties\PageProperties.csproj", "{7ED65C2D-2265-4282-BEF8-2E5B0CC29757}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SitecoreExtension.PageProperties", "Source\PageProperties\SitecoreExtension.PageProperties.csproj", "{7ED65C2D-2265-4282-BEF8-2E5B0CC29757}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageProperties.Tests", "Source\PageProperties.Tests\PageProperties.Tests.csproj", "{DFEBBEDB-ACA2-4B72-AE08-CCD89F3465B7}"
 EndProject
@@ -16,6 +16,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Github", "Github", "{99BE1B
 	ProjectSection(SolutionItems) = preProject
 		Readme.md = Readme.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{5102D20E-04AC-4F54-87AE-4D95B4EB55B3}"
+	ProjectSection(SolutionItems) = preProject
+		Nuget\Package.nuspec = Nuget\Package.nuspec
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{91E0C2BE-F151-4C58-895C-D654118DC151}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,5 +45,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DFEBBEDB-ACA2-4B72-AE08-CCD89F3465B7} = {91E0C2BE-F151-4C58-895C-D654118DC151}
+		{D328B86C-691B-4028-83D5-A247562EB38F} = {91E0C2BE-F151-4C58-895C-D654118DC151}
 	EndGlobalSection
 EndGlobal

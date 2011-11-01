@@ -8,6 +8,7 @@ Keeping the view simple an keeping the editor in the page editor context.
 ## Requirements
 * Sitecore 6.4+ 
 * Sitecore Rocks (for installing Sitecore Items)
+* Building the test projects requires nunit.framework, nunit.mocks and pnunit.framework
 
 ## Installation 
 Install via nuget install-package SitecoreExtension.PageProperties on the Sitecore Rocks attached web project.

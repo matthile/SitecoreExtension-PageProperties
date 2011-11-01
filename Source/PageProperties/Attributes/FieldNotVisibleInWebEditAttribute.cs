@@ -1,4 +1,4 @@
-﻿namespace PageProperties.Attributes
+﻿namespace SitecoreExtension.PageProperties.Attributes
 {
     using System;
     using System.Collections.Generic;
@@ -64,6 +64,7 @@
             }
             set { _order = value; }
         }
+
         #endregion Properties
     }
 }

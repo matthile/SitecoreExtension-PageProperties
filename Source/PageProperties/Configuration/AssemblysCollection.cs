@@ -1,4 +1,4 @@
-namespace PageProperties.Configuration
+namespace SitecoreExtension.PageProperties.Configuration
 {
     using System.Configuration;
 

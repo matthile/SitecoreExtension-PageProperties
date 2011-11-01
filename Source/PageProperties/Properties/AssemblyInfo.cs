@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PageProperties")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("SitecoreExtension.PageProperties")]
+[assembly: AssemblyDescription("A Sitecore Editor for the Page Edit ribbon to allow editors to edit the hidden page properties, such as the Display Name, Meta Description or Taxonomy. The Page properties dialog box generates its controls based on the item context and validates on the existence of specific field names prior to displaying the related control type for the fields.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("PageProperties")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
+[assembly: AssemblyCompany("1508 A/S")]
+[assembly: AssemblyProduct("SitecoreExtension.PageProperties")]
+[assembly: AssemblyCopyright("Sharing is caring © 1508 A/S")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

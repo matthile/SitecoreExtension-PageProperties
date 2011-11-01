@@ -1,4 +1,4 @@
-﻿namespace PageProperties.Commands
+﻿namespace SitecoreExtension.PageProperties.Commands
 {
     using System;
     using System.Collections.Specialized;
