@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
-  <PageProperties.Edit>
-    <FormDialog ID="Dialog" Icon="Applications/32x32/document_new.png" Header="Edit Page Properties"
-  Text="Edit page properties, not visible to the end user" OKButton="Save">
+	<EditPageProperties>
+    <FormDialog ID="Dialog" Icon="Applications/32x32/document_new.png" Header="Edit Properties" Text="Edit Properties, not visible to the end user" OKButton="Save">
       <link href="/sitecore/shell/themes/standard/default/content Manager.css" rel="stylesheet" />
-      <CodeBeside Type="PageProperties.Controls.Edit,PageProperties"/>
-
+      <CodeBeside Type="SitecoreExtension.PageProperties.UI.Edit, SitecoreExtension.PageProperties"/>
       <style>
         .wrapper {
         margin: 20px;
@@ -29,21 +27,10 @@
         padding: 0;
         margin: 0 0 15px;
         }
-
-
       </style>
-
       <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
-        <GridPanel Width="100%" Columns="2">
-          <Border Padding="0px 4px 0px 0px" Style="white-space:nowrap;" GridPanel.Align="right" NoWrap="true">
-            <Literal Text="Description:"/>
-          </Border>
-        </GridPanel>
-
         <Scrollbox ID="InputFields" Width="100%" Height="100%" Background="white" Border="1px inset" Padding="0" GridPanel.Height="100%" />
-
       </GridPanel>
-
     </FormDialog>
-  </PageProperties.Edit>
+  </EditPageProperties>
 </control>
