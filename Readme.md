@@ -32,7 +32,7 @@ You can install the editor with nuget via a local package, this requires Sitecor
 -------
 
 ## Documentation
-	[PageProperties.Attributes.FieldNotVisibleInWebEdit(Fieldname = "Checkbox", ControlType = typeof(Sitecore.Web.UI.HtmlControls.Checkbox))]
+	[SitecoreExtension.PageProperties.Attributes.FieldNotVisibleInWebEdit(Fieldname = "Checkbox", ControlType = typeof(Sitecore.Web.UI.HtmlControls.Checkbox))]
 	public string CheckBox
 	{
 		get { return _item["Checkbox"]; }
@@ -58,6 +58,7 @@ Used to validate that the template has that field
 #### ControlType
 Sets the control, that will get rendered.
 Must derive from Sitecore.Web.UI.HtmlControls.Control
+Default is Sitecore.Web.UI.HtmlControls.Edit
 
 #### Name
 Overrides the default label name.
