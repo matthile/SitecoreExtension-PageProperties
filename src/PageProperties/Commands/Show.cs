@@ -67,7 +67,7 @@
         protected void Run(ClientPipelineArgs args)
         {
             Item itemNotNull = Sitecore.Client.GetItemNotNull(args.Parameters["itemid"], Language.Parse(args.Parameters["language"]), new Sitecore.Data.Version(args.Parameters["version"]), Database.GetDatabase(args.Parameters["database"]));
-            UrlString urlString = ResourceUri.Parse("Control:PageProperties.Edit").ToUrlString();
+            UrlString urlString = ResourceUri.Parse("Control:EditPageProperties").ToUrlString();
             itemNotNull.Uri.AddToUrlString(urlString);
             SheerResponse.ShowModalDialog(urlString.ToString(), false);
         }
