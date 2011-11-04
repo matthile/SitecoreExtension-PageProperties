@@ -2,7 +2,7 @@
 <package >
 	<metadata>
 		<id>SitecoreExtension.PageProperties</id>
-		<version>1.2</version>
+		<version>1.0</version>
 		<authors>Thor Jakobsen @ 1508.dk</authors>
 		<owners>1508 A/S</owners>
 		<licenseUrl>http://creativecommons.org/licenses/by/3.0/</licenseUrl>
@@ -19,8 +19,6 @@
 			Requires Sitecore 6.x and Sitecore Rocks.
 		</description>
 		<releaseNotes>
-			Version 1.2 - Moved Editor Xaml to sitecore Modules and namespace to SitecoreExtension.PageProperties
-			Version 1.1 - Added template sections
 			Version 1.0 - Initial release
 		</releaseNotes>
 		<copyright>http://creativecommons.org/licenses/by/3.0/</copyright>
