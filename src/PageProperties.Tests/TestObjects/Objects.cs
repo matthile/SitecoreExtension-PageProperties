@@ -9,7 +9,7 @@
     {
         #region Properties
 
-        [PageProperties.Attributes.FieldNotVisibleInWebEdit(Name = "test")]
+        [SitecoreExtension.PageProperties.Attributes.FieldNotVisibleInWebEdit(Name = "test")]
         public string Test
         {
             get; set;

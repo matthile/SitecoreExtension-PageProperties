@@ -16,7 +16,7 @@
         [Test]
         public void TestGetSection()
         {
-            var section = (PageProperties.Configuration.AssemblySection)ConfigurationManager.GetSection("PageProperties");
+            var section = (SitecoreExtension.PageProperties.Configuration.AssemblySection)ConfigurationManager.GetSection("PageProperties");
             Assert.NotNull(section, "Section was null! ?");
 
             Assert.AreEqual(2, section.AssemblysCollection.Count, "Count is not 2! ?");

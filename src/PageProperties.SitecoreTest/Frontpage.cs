@@ -25,7 +25,7 @@
 
         #region Properties
 
-        [PageProperties.Attributes.FieldNotVisibleInWebEdit(Fieldname = "Checkbox", ControlType = typeof(Sitecore.Web.UI.HtmlControls.Checkbox))]
+        [SitecoreExtension.PageProperties.Attributes.FieldNotVisibleInWebEdit(Fieldname = "Checkbox", ControlType = typeof(Sitecore.Web.UI.HtmlControls.Checkbox))]
         public string CheckBox
         {
             get { return _item["Checkbox"]; }
@@ -42,7 +42,7 @@
             }
         }
 
-        [PageProperties.Attributes.FieldNotVisibleInWebEdit(Fieldname = "__Display name", ControlType = typeof(CustomControl))]
+        [SitecoreExtension.PageProperties.Attributes.FieldNotVisibleInWebEdit(Fieldname = "__Display name", ControlType = typeof(CustomControl))]
         public string Displayname
         {
             get { return _item[Sitecore.FieldIDs.DisplayName]; }
@@ -59,7 +59,7 @@
             }
         }
 
-        [PageProperties.Attributes.FieldNotVisibleInWebEdit(Order = 2,ControlType = typeof(Sitecore.Web.UI.HtmlControls.Edit))]
+        [SitecoreExtension.PageProperties.Attributes.FieldNotVisibleInWebEdit(Order = 2,ControlType = typeof(Sitecore.Web.UI.HtmlControls.Edit))]
         public string Testting
         {
             get { return _item["TextBox"]; }
@@ -76,7 +76,7 @@
             }
         }
 
-        [PageProperties.Attributes.FieldNotVisibleInWebEdit(Order = 1,ControlType = typeof(Sitecore.Web.UI.HtmlControls.Edit))]
+        [SitecoreExtension.PageProperties.Attributes.FieldNotVisibleInWebEdit(Order = 1,ControlType = typeof(Sitecore.Web.UI.HtmlControls.Edit))]
         public string TextBox
         {
             get { return _item["TextBox"]; }

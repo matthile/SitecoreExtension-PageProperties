@@ -15,7 +15,7 @@
         [Test]
         public void GetAssemblis()
         {
-            var properties = PageProperties.Reflection.FindProperties.GetProperties();
+            var properties = SitecoreExtension.PageProperties.Reflection.FindProperties.GetProperties();
             Assert.AreEqual(1, properties.Count);
         }
 
