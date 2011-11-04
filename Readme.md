@@ -27,7 +27,7 @@ The code behind is simply using the get and set of the property, in combination 
 
 The interface is generated with the current language context and using the field mapping information the relevant template sections and field help is injected in the editor interface, there by keeping most of the native Content Editor features but removing irrelevant fields that e.g. are already editable from the web page in the page editor.
 
-You can install the editor with nuget via a local package, this requires Sitecore Rocks and that the package is located in a local nuget package feed.
+You can install the editor with nuget, this requires Sitecore Rocks.
 
 -------
 
@@ -71,13 +71,13 @@ Default is int.MaxValue
 
 ## Configuration
 	  <configSections>
-		<section name="PageProperties" type="PageProperties.Configuration.AssemblySection, PageProperties" />
+		<section name="PageProperties" type="SitecoreExtension.PageProperties.Configuration.AssemblySection, SitecoreExtension.PageProperties" />
 	  </configSections>
 
 	  <PageProperties>
 		<Assemblys>
 		  <!-- Add Assemblies that will be scanned at runtime for attributes-->	
-		  <Add Assembly="PageProperties" />
+		  <Add Assembly="PageProperties.SitecoreTest" />
 		</Assemblys>
 	  </PageProperties>
 
