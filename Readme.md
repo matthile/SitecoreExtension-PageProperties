@@ -5,6 +5,12 @@ Keeping the view simple an keeping the editor in the page editor context.
 
 1508 / Design in Love with Technology / http://1508.dk
 
+## Editor Scope
+The editor is for page wide settings.
+
+For editing special fieldtypes we recommend the sc:EditFrame approach.
+http://briancaos.wordpress.com/2011/11/28/using-sitecore-editframe-in-pageedit/
+
 ## Requirements
 * Sitecore 6.4+ 
 * Sitecore Rocks (for installing Sitecore Items)
