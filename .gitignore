@@ -51,3 +51,6 @@ packages/
 #Lib
 Lib/Sitecore.Client.dll
 Lib/Sitecore.Kernel.dll
+
+#Build output
+output/
